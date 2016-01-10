@@ -1,9 +1,6 @@
 
 exports.install = function() {
 	F.route('/', home_page);
-	F.route('/{year}/', view_allMonthsForYear);
-	F.route('/{year}/{month}/', view_allDaysForYearAndMonth);
-	F.route('/{year}/{month}/{day}/',viewDayLogs);
 	F.route('/err_log/',err_log,['post']);
 	F.route("/api/logs/",view_days);
 }
@@ -27,41 +24,7 @@ function home_page () {
 	self.layout('layout_log');
 	self.view('index');
 }
-function view_allyears () {
-	var self = this;
-	fs.readdir(log_root_dir,function  (err,files) {
-		self.layout('layout');
-		self.view('years',{ years: files });
-	})
-}
 
-function view_allMonthsForYear (year) {
-	var self = this;
-	fs.readdir(path.join(log_root_dir,year.toString()),function  (err,files) {
-		if (err) {
-			this.plain('error year');
-			return;
-		};
-		self.layout('layout');
-		self.view('months',{year: year, months:files });
-	})
-}
-function  view_allDaysForYearAndMonth (year,month) {
-	var self = this;
-	var month_dir = path.join(log_root_dir,year.toString(),month.toString());
-	fs.readdir(month_dir,function  (err,files) {
-		if (err) {
-			self.plain('error month');
-			return;
-		};
-		var days = [];
-		for (var i = 0; i < files.length; i++) {
-			 days.push(path.basename(files[i],'.json'));
-		};
-		self.layout('layout');
-		self.view('days',{year: year, month: month, days: days});
-	})
-}
 function getDayLogs (year,month,day,cb) {
 	var day_log_file = path.join(log_root_dir,year.toString(),month.toString(),day.toString());
 	day_log_file += '.json';
@@ -69,24 +32,7 @@ function getDayLogs (year,month,day,cb) {
 		cb(err,data);
 	});
 }
-function  viewDayLogs (year,month,day) {
-	var self = this;
-	getDayLogs(year,month,day,function  (err,data) {
-		if (err) {
-			self.plain('err log_file');
-		}
-		else
-		{
-			self.layout('layout_log');
-			var jData = JSON.parse(data);
-			// for (var i = 0; i < jData.length; i++) {
-			// 	var timeReg = new RegExp("[0-9][0-9]:[0-9][0-9]:[0-9][0-9]");
-			// 	jData[i].date = timeReg.exec(jData[i].date)[0];
-			// };
-			self.view('day_log',{year: year, month: month, day: day,log_data: jData});
-		}
-	});
-}
+
 
 function view_days () {
 	var self = this;
