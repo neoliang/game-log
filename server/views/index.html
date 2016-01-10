@@ -1,0 +1,81 @@
+<div id="container">
+<div id="header">
+<h1>日志列表</h1>
+</div>
+
+<div id="menu">
+
+</div>
+
+<div id="content">
+<div> 
+<p align="right"> 日期：<input type="text" id="datepicker"> </p>
+</div>
+<script>
+ $(function() {
+    $.datepicker.regional["zh-CN"] = { closeText: "关闭", prevText: "&#x3c;上月", nextText: "下月&#x3e;", currentText: "今天", monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], monthNamesShort: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"], dayNames: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"], dayNamesShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"], dayNamesMin: ["日", "一", "二", "三", "四", "五", "六"], weekHeader: "周", dateFormat: "yy-mm-dd", firstDay: 1, isRTL: !1, showMonthAfterYear: !0, yearSuffix: "年" }
+
+    $.datepicker.setDefaults($.datepicker.regional["zh-CN"]);
+    $("#datepicker").datepicker('setDate', new Date());
+});
+
+ 	//date picker
+  $("#datepicker").datepicker({
+    showOtherMonths: true,
+    selectOtherMonths: true,
+    onSelect: function  (dateText) {
+    	$.get("/api/logs/",{date:new Date(dateText)},onResponseDayLog);
+    }            
+  });
+</script>
+<script type="text/javascript" src="./app/controller/log_table_view_controller.js" ></script>
+<script type="text/javascript" src="./app/controller/search_log_controller.js"></script>
+<script type="text/javascript" src="./app/controller/menu_controller.js"></script>
+<span style="white-space: pre-line">
+<div>
+	<p class="p2" id="error_num" align="right">错误数: 0</p>
+</div>
+<div id="log_contents">
+</div>
+<script type="text/javascript">
+	//common data
+	var _logContents = [];
+	var _display = {};
+	var _filteredDisplay = {};
+	var _filteredContents = [];
+	
+	function onResponseDayLog(response,err) {
+		var log_contents = $('#log_contents');
+		$('#error_num').empty();
+		log_contents.empty();
+		_logContents = response.datas;
+		_display = response.display;
+		_filteredContents = _logContents;
+		_filteredDisplay = _display;
+		if (err != "success") {
+			log_contents.html("<p>日志错误</p>");
+		}
+		else
+		{
+			var onSearched = function  (searchItems) {
+				_filteredContents = search_log_controller.search(_logContents,searchItems);
+				log_table_view_controller.reloadView(_filteredContents,_filteredDisplay);
+			};
+			var onFilter = function  (checkedIds) {
+				_filteredDisplay = {};
+				for (var i = 0; i < checkedIds.length; i++) {
+					var id = checkedIds[i];
+					_filteredDisplay[id] = _display[id];
+				};
+				log_table_view_controller.reloadView(_filteredContents,_filteredDisplay);
+			};
+			menu_controller.reloadMenu(_display,onSearched,onFilter);
+			$(".child_row_01").hide();
+		}
+	}
+	$.get("/api/logs/",{date:new Date()},onResponseDayLog);
+
+</script>
+</span>
+</div>
+<div id="footer"></div>

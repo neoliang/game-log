@@ -1,0 +1,12 @@
+<h1>请选择天</h1>
+<br />
+<h2><a href="/@{model.year}/">返回</a> </h2>
+	<br />
+	<br />
+	<br />
+
+<div>
+@{foreach m in model.days}
+	<p><a href="/@{model.year}/@{model.month}/@{m}">@{model.year}-@{model.month}-@{m}</a> </p>
+@{end}
+</div>

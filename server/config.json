@@ -1,0 +1,19 @@
+{
+	"log_dis":{
+		"account_id":"id",
+		"version":"版本",
+		"channel": "渠道",
+		"progress": "关卡进度",
+		"currentlevel":"当前关卡",
+		"sysinfo":"系统信息",
+		"luaStack":"lua stack",
+		"type":{
+			"name":"类型",
+			"type": "option",
+			"values":["crash","error"]
+		},
+		"cstack":"c stack",
+		"currentScene":"当前ui",
+		"lastScene":"前一个ui"
+	}
+}

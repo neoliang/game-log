@@ -1,0 +1,5 @@
+// PLEASE:
+// !!! Database is readonly !!!
+// This database uses also: https://github.com/totaljs/demo
+
+log_root_dir                       : /tmp/test_log
