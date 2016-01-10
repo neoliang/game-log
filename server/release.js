@@ -4,4 +4,4 @@
 // http://www.totaljs.com
 // ===================================================
 
-require('total.js').http('release',{"ip":"10.0.1.151","port":8080});
+require('total.js').http('release',{"ip":"127.0.0.1","port":8080});

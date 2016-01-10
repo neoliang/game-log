@@ -8,7 +8,10 @@ a game log framework which contain both client and server:
 3. easy to config to display cutom log contents
 
 #usage
+1.sever
 ```shell
+git clone https://github.com/neoliang/game-log.git
+cd game-log/server
 node release.js
 ```
 
