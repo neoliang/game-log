@@ -2,6 +2,7 @@
 log_table_view_controller = {
 };
 
+
 var getContent = function  (content,display) {
 		var body =  '<tr class="child_row_01"><td><table width="100%" class="table3">';
 		Object.keys(display).forEach(function  (key) {
@@ -17,24 +18,64 @@ var getContent = function  (content,display) {
 		body += '</table></td></tr></table>';
 		return body;
 };
-	
-var getTitle = function  (idx,date,title) {
+var getTitleTemplate = function  () {
+	return '<table width="100%" class="table1" id="log_contents"> \
+			<tr class="parent" id="row_01"> \
+				<td bgcolor="{{color}}"> \
+					<table width="100%" class="table2"> \
+						<tr > \
+							<td width="8px"/> \
+							<td width="100px"> {{hashCode}} </td> \
+							<td width="70px">{{date}} </td> \
+							<td > {{title}} </td> \
+						</tr> \
+					</table> \
+				</td> \
+			</tr>';
+};
+
+
+
+var getTitle = function  (idx,date,title,hashCode) {
 	var timeReg = new RegExp("[0-9][0-9]:[0-9][0-9]:[0-9][0-9]");
 	date = timeReg.exec(date)[0];
 	var even = idx % 2 == 0;
+	var color = "#E0F0F0";
 	if (even) {
-		return '<table width="100%" class="table1" id="log_contents"><tr class="parent" id="row_01"><td bgcolor="#E0F0F0"> <table width="100%" class="table2"><tr ><td width="20px"/><td >' + date + ' -- ' + title.hashCode() + ' -- ' + title + '</td></tr></table></td></tr>'
-	} else{
-		return '<table width="100%" class="table1" id="log_contents"><tr class="parent" id="row_01"><td bgcolor="#F0E0E0"> <table width="100%" class="table2"><tr><td width="20px"/><td >' + date + ' -- ' + title.hashCode() + ' -- ' +  title + '</td></tr></table></td></tr>'
+		color = "#F0E0E0";
 	}
+	var t = getTitleTemplate();
+	return formateTemplate(t,{
+		color: color,
+		date: date,
+		hashCode:hashCode.toString(),
+		title: title 
+	});
+};
+var headTemplate = function  () {
+	return '<div> \
+		<table width="100%" class="head"> \
+			<tr> \
+				<td width="80%"><input type="checkbox" checked="checked" id="btn_fold_log">折叠</input></td> \
+				<td id="error_num" align="right" width="20%" > 错误数: 0</td> \
+			</tr> \
+		</table> \
+		<table width="100%" class="table2"> \
+			<tr > \
+				<td width="8px"/> \
+				<td width="100px" align="center"> 错误码 </td> \
+				<td width="70px" align="center"> 时间 </td> \
+				<td align="center"> 标题 </td> \
+			</tr> \
+		</table> \
+		</div>';
 };
 
 log_table_view_controller.reloadView =	function  (datas,display) {
 	var log_contents = $('#log_contents');
-	var htmlContent ='<div><table width="100%" class="head"><tr><td width="80%"><input type="checkbox" checked="checked" id="btn_fold_log">折叠</input></td><td id="error_num" align="right" width="20%" > 错误数: 0</td></tr></table></div>';
-;
+	var htmlContent = headTemplate();
 	for (var i = 0; i < datas.length; i++) {
-		htmlContent += getTitle(i,datas[i].date,datas[i].content.title);
+		htmlContent += getTitle(i,datas[i].date,datas[i].content.title,datas[i].hashCode);
 		htmlContent += getContent(datas[i].content,display);
 	};
 	log_contents.html(htmlContent);

@@ -52,7 +52,6 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-
 <script type="text/javascript">
 $(function(){
 $('tr.parent').click(function(){   // 获取所谓的父行
@@ -61,6 +60,15 @@ $('tr.parent').click(function(){   // 获取所谓的父行
 	.siblings('.child_'+this.id).toggle();  // 隐藏/显示所谓的子行
 	});
 })
+</script>
+<script type="text/javascript">
+function formateTemplate(t,data){
+	var r = t;
+	Object.keys(data).forEach(function  (key) {
+		r = r.replace('{{' + key +'}}',data[key]);
+	});
+	return r;
+};
 </script>
 <script type='text/javascript'>
     $(document).ready(function(){

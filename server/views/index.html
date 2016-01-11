@@ -56,6 +56,9 @@
 		_logContents =  response.datas.sort(function  (a,b) {
 			return new Date(b.date) - new Date(a.date) ;
 		});
+		_logContents.forEach(function  (c) {
+			c.hashCode = c.content.title.hashCode();
+		});
 		_display = response.display;
 		_filteredContents = _logContents;
 		_filteredDisplay = _display;
@@ -83,7 +86,6 @@
 
 	$.get("/api/logs/",{date:new Date()},onResponseDayLog);
 	$('.btn_refresh').bind('click',function  () {
-		console.log('btn_refresh');
 		$.get("/api/logs/",{date:new Date($("#datepicker").datepicker( "getDate" ))},onResponseDayLog);
 	});
 </script>
