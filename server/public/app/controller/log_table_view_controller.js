@@ -31,8 +31,6 @@ var getTitle = function  (idx,date,title) {
 
 log_table_view_controller.reloadView =	function  (datas,display) {
 	var log_contents = $('#log_contents');
-	$('#error_num').empty();
-	$('#error_num').append("错误数: " + datas.length.toString());
 	var htmlContent ='<div><table width="100%" class="head"><tr><td width="80%"><input type="checkbox" checked="checked" id="btn_fold_log">折叠</input></td><td id="error_num" align="right" width="20%" > 错误数: 0</td></tr></table></div>';
 ;
 	for (var i = 0; i < datas.length; i++) {
@@ -40,6 +38,10 @@ log_table_view_controller.reloadView =	function  (datas,display) {
 		htmlContent += getContent(datas[i].content,display);
 	};
 	log_contents.html(htmlContent);
+
+	$('#error_num').empty();
+	$('#error_num').append("错误数: " + datas.length.toString());
+
 	$('.parent').bind('click',function(){   // 获取所谓的父行
 		$(this)
 		.toggleClass("selected")   // 添加/删除高亮
