@@ -33,7 +33,8 @@ log_table_view_controller.reloadView =	function  (datas,display) {
 	var log_contents = $('#log_contents');
 	$('#error_num').empty();
 	$('#error_num').append("错误数: " + datas.length.toString());
-	var htmlContent = "";
+	var htmlContent ='<div><table width="100%" class="head"><tr><td width="80%"><input type="checkbox" checked="checked" id="btn_fold_log">折叠</input></td><td id="error_num" align="right" width="20%" > 错误数: 0</td></tr></table></div>';
+;
 	for (var i = 0; i < datas.length; i++) {
 		htmlContent += getTitle(i,datas[i].date,datas[i].content.title);
 		htmlContent += getContent(datas[i].content,display);
@@ -44,4 +45,12 @@ log_table_view_controller.reloadView =	function  (datas,display) {
 		.toggleClass("selected")   // 添加/删除高亮
 		.siblings('.child_'+this.id).toggle(100);  // 隐藏/显示所谓的子行
 	});
+	$('#btn_fold_log').bind('click',function () {
+		var fold = $(this).is(':checked');
+		if (fold) {
+			$(".child_row_01").hide(100);
+		} else{
+			$(".child_row_01").show(100);
+		};
+	});	
 };

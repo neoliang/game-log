@@ -8,8 +8,15 @@
 </div>
 
 <div id="content">
-<div> 
-<p align="right"> 日期：<input type="text" id="datepicker"> </p>
+<div>
+
+<table width="100%" class="head1">
+	<tr>
+		<td width="60%"><button type="button" class="btn_refresh">刷新</button></td>
+		<td align="right" width="40%" > 日期：<input type="text" id="datepicker"></td>
+	</tr>
+</table>
+
 </div>
 <script>
  $(function() {
@@ -32,16 +39,7 @@
 <script type="text/javascript" src="./app/controller/search_log_controller.js"></script>
 <script type="text/javascript" src="./app/controller/menu_controller.js"></script>
 <span style="white-space: pre-line">
-<div>
 
-<table width="100%" class="head">
-	<tr>
-		<td width="80%"><input type="checkbox" checked="checked" id="btn_fold_log">折叠</input>&nbsp &nbsp &nbsp <button type="button" class="btn_refresh">刷新</button></td>
-		<td id="error_num" align="right" width="20%" > 错误数: 0</td>
-	</tr>
-</table>
-
-</div>
 <div id="log_contents">
 </div>
 <script type="text/javascript">
@@ -88,15 +86,6 @@
 		console.log('btn_refresh');
 		$.get("/api/logs/",{date:new Date($("#datepicker").datepicker( "getDate" ))},onResponseDayLog);
 	});
-	$('#btn_fold_log').bind('click',function () {
-		var fold = $(this).is(':checked');
-		if (fold) {
-			$(".child_row_01").hide(100);
-		} else{
-			$(".child_row_01").show(100);
-		};
-		
-	});	
 </script>
 </span>
 </div>
