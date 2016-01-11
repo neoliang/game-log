@@ -33,7 +33,14 @@
 <script type="text/javascript" src="./app/controller/menu_controller.js"></script>
 <span style="white-space: pre-line">
 <div>
-	<p class="p2" id="error_num" align="right">错误数: 0</p>
+
+<table width="100%" class="head">
+	<tr>
+		<td width="80%"><input type="checkbox" checked="checked" id="btn_fold_log">折叠</input>&nbsp &nbsp &nbsp <button type="button" class="btn_refresh">刷新</button></td>
+		<td id="error_num" align="right" width="20%" > 错误数: 0</td>
+	</tr>
+</table>
+
 </div>
 <div id="log_contents">
 </div>
@@ -48,7 +55,9 @@
 		var log_contents = $('#log_contents');
 		$('#error_num').empty();
 		log_contents.empty();
-		_logContents = response.datas;
+		_logContents =  response.datas.sort(function  (a,b) {
+			return new Date(b.date) - new Date(a.date) ;
+		});
 		_display = response.display;
 		_filteredContents = _logContents;
 		_filteredDisplay = _display;
@@ -73,8 +82,21 @@
 			$(".child_row_01").hide();
 		}
 	}
-	$.get("/api/logs/",{date:new Date()},onResponseDayLog);
 
+	$.get("/api/logs/",{date:new Date()},onResponseDayLog);
+	$('.btn_refresh').bind('click',function  () {
+		console.log('btn_refresh');
+		$.get("/api/logs/",{date:new Date($("#datepicker").datepicker( "getDate" ))},onResponseDayLog);
+	});
+	$('#btn_fold_log').bind('click',function () {
+		var fold = $(this).is(':checked');
+		if (fold) {
+			$(".child_row_01").hide(100);
+		} else{
+			$(".child_row_01").show(100);
+		};
+		
+	});	
 </script>
 </span>
 </div>

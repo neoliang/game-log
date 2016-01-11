@@ -2,8 +2,18 @@
 search_log_controller = {
 };
 
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
 var isMatch =	function  (key,value,c) {
-	return (c[key].search(value) !== -1);
+	return (c[key].indexOf(value) !== -1);
 };
 
 search_log_controller.search = function (logContents,searchItems) {

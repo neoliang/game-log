@@ -7,13 +7,13 @@
 		"currentlevel":"当前关卡",
 		"sysinfo":"系统信息",
 		"luaStack":"lua stack",
-		"type":{
-			"name":"类型",
-			"type": "option",
-			"values":["crash","error"]
-		},
 		"cstack":"c stack",
 		"currentScene":"当前ui",
-		"lastScene":"前一个ui"
+		"lastScene":"前一个ui",
+				"type":{
+			"name":"类型",
+			"type": "option",
+			"values":["error","crash"]
+		}
 	}
 }

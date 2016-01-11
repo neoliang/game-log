@@ -23,16 +23,16 @@ var getTitle = function  (idx,date,title) {
 	date = timeReg.exec(date)[0];
 	var even = idx % 2 == 0;
 	if (even) {
-		return '<table width="100%" class="table1" id="log_contents"><tr class="parent" id="row_01"><td bgcolor="#E0F0F0"> <table width="100%" class="table2"><tr ><td width="20px"/><td >' + date + ' -- ' + title + '</td></tr></table></td></tr>'
+		return '<table width="100%" class="table1" id="log_contents"><tr class="parent" id="row_01"><td bgcolor="#E0F0F0"> <table width="100%" class="table2"><tr ><td width="20px"/><td >' + date + ' -- ' + title.hashCode() + ' -- ' + title + '</td></tr></table></td></tr>'
 	} else{
-		return '<table width="100%" class="table1" id="log_contents"><tr class="parent" id="row_01"><td bgcolor="#F0E0E0"> <table width="100%" class="table2"><tr><td width="20px"/><td >' + date + ' -- ' + title + '</td></tr></table></td></tr>'
+		return '<table width="100%" class="table1" id="log_contents"><tr class="parent" id="row_01"><td bgcolor="#F0E0E0"> <table width="100%" class="table2"><tr><td width="20px"/><td >' + date + ' -- ' + title.hashCode() + ' -- ' +  title + '</td></tr></table></td></tr>'
 	}
 };
 
 log_table_view_controller.reloadView =	function  (datas,display) {
 	var log_contents = $('#log_contents');
 	$('#error_num').empty();
-	$('#error_num').html("错误数: " + datas.length.toString());
+	$('#error_num').append("错误数: " + datas.length.toString());
 	var htmlContent = "";
 	for (var i = 0; i < datas.length; i++) {
 		htmlContent += getTitle(i,datas[i].date,datas[i].content.title);
