@@ -5,11 +5,11 @@ module.exports = {
 	development: {
 		rootPath: rootPath,
 		cfg: path.join(rootPath,"config.json"),
-		port: process.env.PORT || 3000
+		port: process.env.PORT || 8080
 	},
 	production: {
 		rootPath: rootPath,
 		cfg: path.join(rootPath,"config.json"),
-		port: process.env.PORT || 80
+		port: process.env.PORT || 8080
 	}
 };
