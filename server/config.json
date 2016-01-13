@@ -1,4 +1,5 @@
 {
+	"log_root_dir":"/tmp/test_log",
 	"log_dis":{
 		"account_id":"id",
 		"version":"版本",

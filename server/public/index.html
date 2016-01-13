@@ -1,0 +1,186 @@
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=10" />
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="viewport" content="width=1024, user-scalable=yes" />
+  <style type="text/css">
+  table.table1{border-collapse:collapse;border-bottom: 0px; border-spacing:0;border-left:0px;border-top:0px;  border-right:0px; background:#efefef;}
+  table.table1 th,td{border-right:0px;border-left: 0px;border-top: 0px; border-bottom:0px;padding:5px 15px;}
+  table.table1 th{font-weight:bold;background:#ccc;}
+  table.table2{border-collapse:collapse;border-spacing:0;border-left:0px;border-right: 0px; border-top:0px; border-bottom: 0px;}
+  table.table2 td{font-size: 15px;border-right:0px solid #888;border-bottom:0px solid #888;padding:0px 0px;}
+  table.table2 th{font-weight:bold;background:#ccc;}
+  table.table3{border-collapse:collapse;border-spacing:0;border-left:1px solid #888;border-top:1px solid #888;background:#efefef;}
+  table.table3 td{font-size: 10px; border-left:1px; border-top: 1px; border-right:1px solid #888;border-bottom:1px solid #888;padding:0px 0px;}
+  table.table3 th{font-weight:bold;background:#ccc;}
+  table.table_search{border-collapse:collapse;border-bottom: 0px; border-spacing:0;border-left:0px;border-top:0px;  border-right:0px; background:#efefef;}
+  table.table_search th,td{border-right:0px;border-left: 0px;border-top: 0px; border-bottom:0px;padding:5px 5px;}
+  table.table_search th{font-weight:bold;background:#ccc;}
+  table.head {background-color: #D0D0D0; padding: 0px; font:bold 15px Arial;}
+  table.head1 {background-color: #E0E0E0; padding: 0px; font:bold 15px Arial;}
+    body { padding: 50px; margin: 0; font:normal 12px Arial; color: gray }
+    a { float:left; margin: 0 5px 0 0; font-size: 18px; }
+    p.p1 { background-color: #E0F0F0; padding: 5px; font:bold 15px Arial; }
+    p.p2 { background-color: #E0F0F0; padding: 5px; font:bold 15px Arial; }
+  div.ui-datepicker{
+    font-size:20px;
+  }
+  .btn_search{
+    height: 30px;
+    width: 100px;
+  }
+  .btn_refresh{
+    height: 30px;
+    width: 100px;
+  }
+  div#container{width:1124px}
+  div#header {background-color:#99bbbb;}
+  div#menu {height:800px;width:244px;float:left;}
+  div#content {background-color:#EEEEEE;height:800px;width:860px;float:right;}
+  div#footer {clear:both;text-align:center;}
+  </style>
+
+
+</head>
+
+<body>
+
+<!--   引入jQuery -->
+<link rel="stylesheet" href="./lib/jquery/jquery-ui.min.css">
+<script src="./lib/jquery/jquery.min.js"></script>
+<script src="./lib/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript">
+$(function(){
+$('tr.parent').click(function(){   // 获取所谓的父行
+  $(this)
+  .toggleClass("selected")   // 添加/删除高亮
+  .siblings('.child_'+this.id).toggle();  // 隐藏/显示所谓的子行
+  });
+})
+</script>
+<script type="text/javascript">
+function formateTemplate(t,data){
+  var r = t;
+  Object.keys(data).forEach(function  (key) {
+    r = r.replace('{{' + key +'}}',data[key]);
+  });
+  return r;
+};
+</script>
+<script type='text/javascript'>
+    $(document).ready(function(){
+      $(".child_row_01").hide();
+    });
+</script>
+  <div>
+    <div id="container">
+<div id="header">
+<h1>日志列表</h1>
+</div>
+
+<div id="menu">
+
+</div>
+
+<div id="content">
+<div>
+
+<table width="100%" class="head1">
+  <tr>
+    <td width="60%"><button type="button" class="btn_refresh">刷新</button></td>
+    <td align="right" width="40%" > 日期：<input type="text" id="datepicker"></td>
+  </tr>
+</table>
+
+</div>
+<script>
+ $(function() {
+    $.datepicker.regional["zh-CN"] = { closeText: "关闭", prevText: "&#x3c;上月", nextText: "下月&#x3e;", currentText: "今天", monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], monthNamesShort: ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"], dayNames: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"], dayNamesShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"], dayNamesMin: ["日", "一", "二", "三", "四", "五", "六"], weekHeader: "周", dateFormat: "yy-mm-dd", firstDay: 1, isRTL: !1, showMonthAfterYear: !0, yearSuffix: "年" }
+
+    $.datepicker.setDefaults($.datepicker.regional["zh-CN"]);
+    $("#datepicker").datepicker('setDate', new Date());
+});
+
+  //date picker
+  $("#datepicker").datepicker({
+    showOtherMonths: true,
+    selectOtherMonths: true,
+    onSelect: function  (dateText) {
+      $.get("/api/logs/",{date:new Date(dateText)},onResponseDayLog);
+    }            
+  });
+</script>
+<script type="text/javascript" src="./app/controller/log_table_view_controller.js" ></script>
+<script type="text/javascript" src="./app/controller/search_log_controller.js"></script>
+<script type="text/javascript" src="./app/controller/menu_controller.js"></script>
+<span style="white-space: pre-line">
+
+<div id="log_contents">
+</div>
+<script type="text/javascript">
+
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+  //common data
+  var _logContents = [];
+  var _display = {};
+  var _filteredDisplay = {};
+  var _filteredContents = [];
+  
+  function onResponseDayLog(response,err) {
+    var log_contents = $('#log_contents');
+    $('#error_num').empty();
+    log_contents.empty();
+    _logContents =  response.datas.sort(function  (a,b) {
+      return new Date(b.date) - new Date(a.date) ;
+    });
+    _logContents.forEach(function  (c) {
+      c.hashCode = c.content.title.hashCode();
+    });
+    _display = response.display;
+    _filteredContents = _logContents;
+    _filteredDisplay = _display;
+    if (err != "success") {
+      log_contents.html("<p>日志错误</p>");
+    }
+    else
+    {
+      var onSearched = function  (searchItems) {
+        _filteredContents = search_log_controller.search(_logContents,searchItems);
+        log_table_view_controller.reloadView(_filteredContents,_filteredDisplay);
+      };
+      var onFilter = function  (checkedIds) {
+        _filteredDisplay = {};
+        for (var i = 0; i < checkedIds.length; i++) {
+          var id = checkedIds[i];
+          _filteredDisplay[id] = _display[id];
+        };
+        log_table_view_controller.reloadView(_filteredContents,_filteredDisplay);
+      };
+      menu_controller.reloadMenu(_display,onSearched,onFilter);
+      $(".child_row_01").hide();
+    }
+  }
+
+  $.get("/api/logs/",{date:new Date()},onResponseDayLog);
+  $('.btn_refresh').bind('click',function  () {
+    $.get("/api/logs/",{date:new Date($("#datepicker").datepicker( "getDate" ))},onResponseDayLog);
+  });
+</script>
+</span>
+</div>
+<div id="footer"></div>
+  </div>
+</body>
+</html>
+
+
