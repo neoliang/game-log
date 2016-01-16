@@ -8,7 +8,7 @@
 		"currentlevel":"当前关卡",
 		"sysinfo":{"name":"系统信息","type":"hash"},
 		"luaStack":{"name":"lua stack","type":"hash"},
-		"title":{"name":"title","type":"hash"},
+		"title":{"name":"title","type":"hash","display":"none"},
 		"cstack":{"name":"c stack","type":"hash"},
 		"currentScene":"当前ui",
 		"lastScene":"前一个ui",

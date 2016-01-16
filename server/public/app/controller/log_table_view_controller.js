@@ -20,14 +20,18 @@ var getContent = function  (content,display,hashData) {
 			var v = display[key];
 			var name = v;
 			var isHash = false;
+			var show = true;
 			if (typeof(v) === 'object') {
 				name = v.name;
 				if (v.type === 'hash')
 				{
 					isHash = true;
 				}
+				if (v.display && v.display === 'none') {
+					show = false;
+				};
 			};
-			if (content[key]) {
+			if (content[key] && show) {
 				var nv = content[key];
 				if (isHash )
 				{
