@@ -26,7 +26,10 @@ var getContent = function  (content,display,hashData) {
 				{
 					nv = hashData[content[key]];
 				}
-				body += '<tr ><td>' + name +  '</td><td>' + nv +  '</td></tr>';
+				if(nv){
+					nv = nv.toString();
+					body += '<tr ><td>' + name +  '</td><td>' + nv.replace("\r\n","<br/>") +  '</td></tr>';
+				}
 			};
 		});
 		body += '</table></td></tr></table>';
