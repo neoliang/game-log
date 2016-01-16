@@ -135,7 +135,7 @@ String.prototype.hashCode = function() {
   var _display = {};
   var _filteredDisplay = {};
   var _filteredContents = [];
-  
+  var _hashData = {};
   function onResponseDayLog(response,err) {
     var log_contents = $('#log_contents');
     $('#error_num').empty();
@@ -143,10 +143,8 @@ String.prototype.hashCode = function() {
     _logContents =  response.datas.sort(function  (a,b) {
       return new Date(b.date) - new Date(a.date) ;
     });
-    _logContents.forEach(function  (c) {
-      c.hashCode = c.content.title.hashCode();
-    });
     _display = response.display;
+    _hashData = response.hash_data;
     _filteredContents = _logContents;
     _filteredDisplay = _display;
     if (err != "success") {
@@ -156,7 +154,7 @@ String.prototype.hashCode = function() {
     {
       var onSearched = function  (searchItems) {
         _filteredContents = search_log_controller.search(_logContents,searchItems);
-        log_table_view_controller.reloadView(_filteredContents,_filteredDisplay);
+        log_table_view_controller.reloadView(_filteredContents,_filteredDisplay,_hashData);
       };
       var onFilter = function  (checkedIds) {
         _filteredDisplay = {};
@@ -164,7 +162,7 @@ String.prototype.hashCode = function() {
           var id = checkedIds[i];
           _filteredDisplay[id] = _display[id];
         };
-        log_table_view_controller.reloadView(_filteredContents,_filteredDisplay);
+        log_table_view_controller.reloadView(_filteredContents,_filteredDisplay,_hashData);
       };
       menu_controller.reloadMenu(_display,onSearched,onFilter);
       $(".child_row_01").hide();

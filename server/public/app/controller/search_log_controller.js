@@ -2,7 +2,7 @@
 search_log_controller = {
 };
 var isMatch =	function  (key,value,c) {
-	return (c[key].indexOf(value) !== -1);
+	return (!c[key] || c[key].indexOf(value) !== -1);
 };
 
 search_log_controller.search = function (logContents,searchItems) {

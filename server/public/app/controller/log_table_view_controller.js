@@ -14,16 +14,26 @@ log_table_view_controller = {
 };
 
 
-var getContent = function  (content,display) {
+var getContent = function  (content,display,hashData) {
 		var body =  '<tr class="child_row_01"><td><table width="100%" class="table3">';
 		Object.keys(display).forEach(function  (key) {
 			var v = display[key];
 			var name = v;
+			var isHash = false;
 			if (typeof(v) === 'object') {
 				name = v.name;
+				if (v.type === 'hash')
+				{
+					isHash = true;
+				}
 			};
 			if (content[key]) {
-				body += '<tr ><td>' + name +  '</td><td>' + content[key] +  '</td></tr>';
+				var nv = content[key];
+				if (isHash )
+				{
+					nv = hashData[content[key]];
+				}
+				body += '<tr ><td>' + name +  '</td><td>' + nv +  '</td></tr>';
 			};
 		});
 		body += '</table></td></tr></table>';
@@ -59,7 +69,7 @@ var getTitle = function  (idx,date,title,hashCode) {
 	return formateTemplate(t,{
 		color: color,
 		date: date,
-		hashCode:hashCode.toString(),
+		hashCode:hashCode,
 		title: title 
 	});
 };
@@ -82,12 +92,14 @@ var headTemplate = function  () {
 		</div>';
 };
 
-log_table_view_controller.reloadView =	function  (datas,display) {
+log_table_view_controller.reloadView =	function  (datas,display,hashData) {
 	var log_contents = $('#log_contents');
 	var htmlContent = headTemplate();
+	var tilteDisplay = display['title'];
+	if (typeof(tilteDisplay) === 'object' && tilteDisplay.type === 'hash')
 	for (var i = 0; i < datas.length; i++) {
-		htmlContent += getTitle(i,datas[i].date,datas[i].content.title,datas[i].hashCode);
-		htmlContent += getContent(datas[i].content,display);
+		htmlContent += getTitle(i,datas[i].date,hashData[datas[i].content.title],datas[i].content.title);
+		htmlContent += getContent(datas[i].content,display,hashData);
 	};
 	log_contents.html(htmlContent);
 

@@ -6,12 +6,13 @@
 		"channel": "渠道",
 		"progress": "关卡进度",
 		"currentlevel":"当前关卡",
-		"sysinfo":"系统信息",
-		"luaStack":"lua stack",
-		"cstack":"c stack",
+		"sysinfo":{"name":"系统信息","type":"hash"},
+		"luaStack":{"name":"lua stack","type":"hash"},
+		"title":{"name":"title","type":"hash"},
+		"cstack":{"name":"c stack","type":"hash"},
 		"currentScene":"当前ui",
 		"lastScene":"前一个ui",
-				"type":{
+		"type":{
 			"name":"类型",
 			"type": "option",
 			"values":["error","crash"]

@@ -5,6 +5,18 @@ var fs = require('fs');
 var path = require('path');
 var log_root_dir = '/tmp';
 var cfg = {};
+var hash_file = 'hash_file.json';
+
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
 
 var join_array = function  (files) {
 	var str = "";
@@ -41,7 +53,17 @@ var view_day_event = function  (req,res) {
 			res.json({datas:[],display: cfg.log_dis});
 		} else{
 			var jData = JSON.parse(data);
-			res.json({datas:jData,display: cfg.log_dis});
+			fs.readFile(hash_file,'utf8',function  (err,data) {
+				if(err){
+					res.json({datas:[],display: cfg.log_dis});
+				}
+				else
+				{
+					var hash_data = JSON.parse(data);
+					res.json({datas:jData,display: cfg.log_dis,hash_data:hash_data});
+				}
+			})
+
 		};
 
 	});
@@ -61,18 +83,37 @@ var post_event = function  (req, res) {
 	if (fs.existsSync(log_file)) {
 		contents = JSON.parse(fs.readFileSync(log_file));
 	}
+	var old_hash = {};
+	if (fs.existsSync(hash_file)) {
+		old_hash = JSON.parse(fs.readFileSync(hash_file));
+	};
+	var transModel = {}
+	Object.keys(model).forEach(function  (key) {
+    var v = cfg.log_dis[key];
+    if (typeof(v) === 'object' && v.type === 'hash') {
+    	var code = model[key].toString().hashCode();
+    	transModel[key] = code;
+    	old_hash[code] = model[key].toString();
+    }
+    else
+    {
+    	transModel[key] = model[key].toString();
+    }
+  });
 	var content = {
 		"date":now.toString(),
-		"content":model
+		"content":transModel,
 	};
 	contents.push(content);
 	fs.writeFileSync(log_file,JSON.stringify(contents));
-	res.json(contents);
+	fs.writeFileSync(hash_file,JSON.stringify(old_hash));
+	//res.json({trans:transModel,hash_data:old_hash});
 };
 
 module.exports = function(app){	
 	cfg = app.get('cfg');
-	log_root_dir = app.get('cfg').log_root_dir
+	log_root_dir = app.get('cfg').log_root_dir;
+	hash_file = path.join(log_root_dir,hash_file);
 	if(!fs.existsSync(log_root_dir))
 	{
 		mkdir_rec(log_root_dir);
