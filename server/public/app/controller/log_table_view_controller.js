@@ -27,7 +27,7 @@ var getContent = function  (content,display,hashData) {
 					nv = hashData[content[key]];
 				}
 				if(nv){
-					body += '<tr ><td>' + name +  '</td><td>' + nv +  '</td></tr>';
+					body += '<tr ><td>' + name +  '</td><td>' + nv.toString().replace(/\r?\n/g, '<br />') +  '</td></tr>';
 				}
 			};
 		});
