@@ -6,7 +6,7 @@ var isMatch =	function  (key,value,c) {
 	{
 		return true;
 	}
-	else(typeof(c[key]) === 'string')
+	else if(typeof(c[key]) === 'string')
 	{
 		return c[key].indexOf(value) !== -1;
 	}
