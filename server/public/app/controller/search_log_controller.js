@@ -2,7 +2,15 @@
 search_log_controller = {
 };
 var isMatch =	function  (key,value,c) {
-	return (!c[key] || c[key] == value || c[key].indexOf(value) !== -1);
+	if (!c[key] || c[key] == value )
+	{
+		return true;
+	}
+	else(typeof(c[key]) === 'string')
+	{
+		return c[key].indexOf(value) !== -1;
+	}
+	return false;
 };
 
 search_log_controller.search = function (logContents,searchItems) {
