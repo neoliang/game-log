@@ -91,7 +91,7 @@ var display = {};
 var hashData = {};
 var _toalPage = 0;
 var _currentPage = 0;
-var _linePerPage = 50;
+var _linePerPage = 20;
 
 var _reloadView = function  () {
 
@@ -110,10 +110,7 @@ var _reloadView = function  () {
   };
   
   log_contents.html(htmlContent);
-  var visiblePages = 5;
-  if (visiblePages > _toalPage) {
-    visiblePages = _toalPage;
-  }
+
 
   $('#error_num').empty();
   $('#error_num').append("错误数: " + datas.length.toString());
@@ -130,7 +127,8 @@ var _reloadView = function  () {
     } else{
       $(".child_row_01").show(100);
     };
-  }); 
+  });
+  $(".child_row_01").hide(100); 
 };
 
 log_table_view_controller.reloadView =  function  (_datas,_display,_hashData) {
@@ -139,10 +137,15 @@ log_table_view_controller.reloadView =  function  (_datas,_display,_hashData) {
   hashData = _hashData;
   _toalPage = Math.ceil(datas.length / _linePerPage);
   _currentPage = 0;
-    if (_toalPage > 0) {
+
+  if (_toalPage > 0) {
+    var visiblePages = 7;
+    if (visiblePages > _toalPage) {
+      visiblePages = _toalPage;
+    }
     $('#pagination-demo').twbsPagination({
         totalPages: _toalPage,
-        visiblePages: 7,
+        visiblePages: visiblePages,
         startPage: _currentPage + 1,
         onPageClick: function (event, page) {
             _currentPage = page - 1;
