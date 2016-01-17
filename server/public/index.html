@@ -49,8 +49,11 @@
 <!--   引入jQuery -->
 <link rel="stylesheet" href="./lib/jquery/jquery-ui.min.css">
 <link rel="stylesheet" href="./app/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="./app/loadingstyle.css" type="text/css">
+
 <script src="./lib/jquery/jquery.min.js"></script>
 <script src="./lib/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="./lib/jquery.isloading.min.js"></script>
 <script type="text/javascript" src="./lib/jquery.twbsPagination.min.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -109,6 +112,7 @@ function formateTemplate(t,data){
     showOtherMonths: true,
     selectOtherMonths: true,
     onSelect: function  (dateText) {
+      beginLoading();
       $.get("/api/logs/",{date:new Date(dateText)},onResponseDayLog);
     }            
   });
@@ -121,7 +125,14 @@ function formateTemplate(t,data){
 </div>
 <ul id="pagination-demo" class="pagination-sm"></ul>
 <script type="text/javascript">
-
+function beginLoading () {
+  $(function() {
+    $.isLoading({ text: "Loading",position:   "overlay" });
+  });
+};
+function endLoading () {
+  $.isLoading( "hide" );
+}
 String.prototype.hashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length === 0) return hash;
@@ -139,6 +150,7 @@ String.prototype.hashCode = function() {
   var _filteredContents = [];
   var _hashData = {};
   function onResponseDayLog(response,err) {
+    endLoading();
     var log_contents = $('#log_contents');
     $('#error_num').empty();
     log_contents.empty();
@@ -170,9 +182,10 @@ String.prototype.hashCode = function() {
       $(".child_row_01").hide();
     }
   }
-
+  beginLoading();
   $.get("/api/logs/",{date:new Date()},onResponseDayLog);
   $('.btn_refresh').bind('click',function  () {
+    beginLoading();
     $.get("/api/logs/",{date:new Date($("#datepicker").datepicker( "getDate" ))},onResponseDayLog);
   });
 </script>

@@ -91,7 +91,7 @@ var display = {};
 var hashData = {};
 var _toalPage = 0;
 var _currentPage = 0;
-var _linePerPage = 20;
+var _linePerPage = 10;
 
 var _reloadView = function  () {
 
