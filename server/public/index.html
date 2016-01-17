@@ -48,8 +48,10 @@
 
 <!--   引入jQuery -->
 <link rel="stylesheet" href="./lib/jquery/jquery-ui.min.css">
+<link rel="stylesheet" href="./app/bootstrap.min.css" type="text/css">
 <script src="./lib/jquery/jquery.min.js"></script>
 <script src="./lib/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="./lib/jquery.twbsPagination.min.js"></script>
 <script type="text/javascript">
 $(function(){
 $('tr.parent').click(function(){   // 获取所谓的父行
@@ -117,6 +119,7 @@ function formateTemplate(t,data){
 
 <div id="log_contents">
 </div>
+<ul id="pagination-demo" class="pagination-sm"></ul>
 <script type="text/javascript">
 
 String.prototype.hashCode = function() {
