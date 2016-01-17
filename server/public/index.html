@@ -113,8 +113,7 @@ function formateTemplate(t,data){
     showOtherMonths: true,
     selectOtherMonths: true,
     onSelect: function  (dateText) {
-      beginLoading();
-      $.get("/api/logs/",{date:new Date(dateText)},onResponseDayLog);
+      query_log(new Date(dateText));
     }            
   });
 </script>
@@ -126,14 +125,18 @@ function formateTemplate(t,data){
 </div>
 <ul id="pagination-demo" class="pagination-sm"></ul>
 <script type="text/javascript">
-function beginLoading () {
-  $(function() {
-    $.isLoading({ text: "Loading",position:   "overlay" });
+
+function endLoading () {
+  
+};
+function query_log (date) {
+  $.isLoading({ text: "Loading",position:   "overlay" });
+  console.log('query_log',date);
+  $.get("/api/logs/",{date:date},function(response,err) {
+    onResponseDayLog(response,err);
+    $.isLoading( "hide" );    
   });
 };
-function endLoading () {
-  $.isLoading( "hide" );
-}
 String.prototype.hashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length === 0) return hash;
@@ -183,11 +186,9 @@ String.prototype.hashCode = function() {
       $(".child_row_01").hide();
     }
   }
-  beginLoading();
-  $.get("/api/logs/",{date:new Date()},onResponseDayLog);
+  query_log(new Date());
   $('.btn_refresh').bind('click',function  () {
-    beginLoading();
-    $.get("/api/logs/",{date:new Date($("#datepicker").datepicker( "getDate" ))},onResponseDayLog);
+    query_log(new Date($("#datepicker").datepicker( "getDate" )));
   });
 </script>
 </div>
