@@ -61,6 +61,7 @@ var getDayLogs = function  (year,month,day,cb) {
         var day_hash_data = {};
         if(err){
           day_hash_data = getHashCodeFromContents(jData);
+          fs.writeFileSync(day_hash_file_name,JSON.stringify(day_hash_data));
         }
         else
         {
