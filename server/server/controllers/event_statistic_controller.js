@@ -7,7 +7,7 @@ var log_root_dir = '/tmp';
 var cfg = {};
 var hash_file = 'hash_file.json';
 var hash_datas = {};
-var save_hash_interval = 10 * 60 * 1000; //10 分钟保存一次
+var save_hash_interval = 30 * 60 * 1000; //10 分钟保存一次
 
 String.prototype.hashCode = function() {
   var hash = 0, i, chr, len;
@@ -137,7 +137,7 @@ var post_event = function  (req, res) {
   res.end();
 };
 
-module.exports = function(app){ 
+var init = function(app){
   cfg = app.get('cfg');
   log_root_dir = app.get('cfg').log_root_dir;
   hash_file = path.join(log_root_dir,hash_file);
@@ -149,12 +149,24 @@ module.exports = function(app){
   if (fs.existsSync(hash_file)) {
     hash_datas = JSON.parse(fs.readFileSync(hash_file));
   }
-  setTimeout(function  () {
+
+  var saveRootHashFile = function () {
     fs.writeFileSync(hash_file,JSON.stringify(hash_datas));
-    }
-    ,save_hash_interval
-  );
+  }
+
+  setTimeout(saveRootHashFile,save_hash_interval);
   
+  //catches ctrl+c event
+  process.on('SIGINT', function(){
+    saveRootHashFile();
+    process.exit(1);
+  });
+  //catches uncaught exceptions
+  process.on('uncaughtException', saveRootHashFile);
+};
+
+module.exports = function(app){ 
+  init(app);
   return{
     view_day_event: view_day_event,
     post_event: post_event,
