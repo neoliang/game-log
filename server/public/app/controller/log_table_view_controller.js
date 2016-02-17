@@ -114,11 +114,11 @@ var _reloadView = function  () {
   $('#error_num').empty();
   $('#error_num').append("错误数: " + datas.length.toString());
 
-  $('.parent').bind('click',function(){   // 获取所谓的父行
-    $(this)
-    .toggleClass("selected")   // 添加/删除高亮
-    .siblings('.child_'+this.id).toggle(100);  // 隐藏/显示所谓的子行
-  });
+  // $('.parent').bind('click',function(){   // 获取所谓的父行
+  //   $(this)
+  //   .toggleClass("selected")   // 添加/删除高亮
+  //   .siblings('.child_'+this.id).toggle(100);  // 隐藏/显示所谓的子行
+  // });
   $('#btn_fold_log').bind('click',function () {
     var fold = $(this).is(':checked');
     if (fold) {
