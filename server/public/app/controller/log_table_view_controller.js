@@ -35,7 +35,7 @@ var getContent = function  (content,display,hashData) {
     return body;
 };
 var getTitleTemplate = function  () {
-  return '<table width="100%" class="table1" id="log_contents"> \
+  return '<table width="100%" class="table1"> \
       <tr class="parent" id="row_01"> \
         <td bgcolor="{{color}}"> \
           <table width="100%" class="table2"> \
@@ -97,7 +97,6 @@ var _reloadView = function  () {
 
   var log_contents = $('#log_contents');
   var htmlContent = headTemplate();
-  var tilteDisplay = display['title'];
   var pageStart = _currentPage * _linePerPage;
   var pageEnd = _currentPage * _linePerPage + _linePerPage;
   if (pageEnd > datas.length )
@@ -115,11 +114,7 @@ var _reloadView = function  () {
   $('#error_num').empty();
   $('#error_num').append("错误数: " + datas.length.toString());
 
-  $('.parent').bind('click',function(){   // 获取所谓的父行
-    $(this)
-    .toggleClass("selected")   // 添加/删除高亮
-    .siblings('.child_'+this.id).toggle(100);  // 隐藏/显示所谓的子行
-  });
+
   $('#btn_fold_log').bind('click',function () {
     var fold = $(this).is(':checked');
     if (fold) {

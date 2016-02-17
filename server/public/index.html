@@ -40,8 +40,8 @@
   }
   div#container{width:1124px}
   div#header {background-color:#99bbbb;}
-  div#menu {height:800px;width:244px;float:left;font-size: 12px;}
-  div#content {background-color:#EEEEEE;height:800px;width:860px;float:right;}
+  div#menu {height:630px;width:244px;float:left;font-size: 12px;}
+  div#content {background-color:#EEEEEE;height:630px;width:860px;float:right;}
   div#footer {clear:both;text-align:center;}
   </style>
 
@@ -120,7 +120,7 @@ function formateTemplate(t,data){
 <script type="text/javascript" src="./app/controller/log_table_view_controller.js" ></script>
 <script type="text/javascript" src="./app/controller/search_log_controller.js"></script>
 <script type="text/javascript" src="./app/controller/menu_controller.js"></script>
-
+<script type="text/javascript" src="./app/controller/top_event_view.js"></script>
 <div id="log_contents">
 </div>
 <ul id="pagination-demo" class="pagination-sm"></ul>
@@ -179,6 +179,7 @@ String.prototype.hashCode = function() {
         log_table_view_controller.reloadView(_filteredContents,_filteredDisplay,_hashData);
       };
       menu_controller.reloadMenu(_display,onSearched,onFilter);
+      top_event_view.reloadView(_logContents,_display,_hashData);
       $(".child_row_01").hide();
     }
   }
