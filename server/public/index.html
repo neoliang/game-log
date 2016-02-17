@@ -126,9 +126,6 @@ function formateTemplate(t,data){
 <ul id="pagination-demo" class="pagination-sm"></ul>
 <script type="text/javascript">
 
-function endLoading () {
-  
-};
 function query_log (date) {
   $.isLoading({ text: "Loading",position:   "overlay" });
   console.log('query_log',date);
@@ -154,7 +151,6 @@ String.prototype.hashCode = function() {
   var _filteredContents = [];
   var _hashData = {};
   function onResponseDayLog(response,err) {
-    endLoading();
     var log_contents = $('#log_contents');
     $('#error_num').empty();
     log_contents.empty();
@@ -192,7 +188,10 @@ String.prototype.hashCode = function() {
   });
 </script>
 </div>
-<div id="footer"></div>
+<div id="footer">
+  
+  
+</div>
 
   </div>
   </div>
