@@ -7,7 +7,8 @@ var top_headTemplate = function  () {
     <table width="100%" class="table2"> \
       <tr > \
         <td width="8px"/> \
-        <td width="70px" align="center"> 数量 </td> \
+        <td width="50px" align="center"> 数量 </td> \
+        <td width="120px" align="center">错误码 </td> \
         <td align="center"> 标题 </td> \
       </tr> \
     </table> \
@@ -52,8 +53,10 @@ var top_getTitleTemplate = function  () {
           <table width="100%" class="table2"> \
             <tr > \
               <td width="8px"/> \
-              <td width="70px" align="left">{{num}} </td> \
-              <td width="400px" align="left"> {{title}} </td> \
+              <td width="50px" align="left">{{num}} </td> \
+              <td width="120px" align="left">{{hashCode}} </td> \
+              <td width="10px" >  </td> \
+              <td align="left"> {{title}} </td> \
             </tr> \
           </table> \
         </td> \
@@ -62,7 +65,7 @@ var top_getTitleTemplate = function  () {
 
 
 
-var top_getTitle = function  (idx,num,title) {
+var top_getTitle = function  (idx,num,title,hashCode) {
   var even = idx % 2 == 0;
   var color = "#E0F0F0";
   if (even) {
@@ -72,6 +75,7 @@ var top_getTitle = function  (idx,num,title) {
   return formateTemplate(t,{
     color: color,
     num: num,
+    hashCode: hashCode,
     title: title 
   });
 };
@@ -110,8 +114,7 @@ top_event_view.reloadView =  function  (_datas,_display,_hashData) {
   });
   for (var i = 0; i < sortedCountDatas.length; i++) {
     var item = sortedCountDatas[i];
-    console.log(item);
-    htmlContent += top_getTitle(i,item.count,_hashData[item.data.content.title]);
+    htmlContent += top_getTitle(i,item.count,_hashData[item.data.content.title],item.data.content.title);
     htmlContent += top_getContent(item.data.content,_display,_hashData);
   }
   log_contents.html(htmlContent);
