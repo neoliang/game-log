@@ -16,7 +16,7 @@ var top_headTemplate = function  () {
 };
 
 var top_getContent = function  (content,display,hashData) {
-    var body =  '<tr class="child_row_01"><td><table width="100%" class="table3">';
+    var body =  '<tr class="child1_row_01"><td><table width="100%" class="table3">';
     Object.keys(display).forEach(function  (key) {
       var v = display[key];
       var name = v;
@@ -48,7 +48,7 @@ var top_getContent = function  (content,display,hashData) {
 };
 var top_getTitleTemplate = function  () {
   return '<table width="100%" class="table1"> \
-      <tr class="parent" id="row_01"> \
+      <tr class="parent1" id="row_01"> \
         <td bgcolor="{{color}}"> \
           <table width="100%" class="table2"> \
             <tr > \
@@ -121,9 +121,9 @@ top_event_view.reloadView =  function  (_datas,_display,_hashData) {
   var error_type_num = $('#error_type_num');
   error_type_num.empty();
   error_type_num.append('错误类型统计(' + sortedCountDatas.length + '种)');
-  $('.parent').bind('click',function(){   // 获取所谓的父行
+  $('.parent1').bind('click',function(){   // 获取所谓的父行
     $(this)
     .toggleClass("selected")   // 添加/删除高亮
-    .siblings('.child_'+this.id).toggle(100);  // 隐藏/显示所谓的子行
+    .siblings('.child1_'+this.id).toggle(100);  // 隐藏/显示所谓的子行
   });
 };
